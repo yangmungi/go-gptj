@@ -9,14 +9,14 @@ typedef void* ContextHandle;
 
 typedef int (*Callback)(const char*);
 
-typedef struct {
+struct GPTJContext {
         GPTJHandle handle;
         ContextHandle ctx;
-} GPTJContext;
+};
 
-GPTJContext go_gptj_load(char* modelFullPath);
+struct GPTJContext* go_gptj_load(char* modelFullPath);
 
-void go_gptj_prompt(GPTJContext ctx, char* prompt, Callback responseCallback, 
+void go_gptj_prompt(struct GPTJContext ctx, char* prompt, Callback responseCallback, 
                 int32_t n_predict, int32_t top_k, float top_p, float temp, int32_t n_batch); 
 
 #ifdef __cplusplus
