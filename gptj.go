@@ -31,8 +31,40 @@ func concatString(s *C.char) C.int {
 	return 0
 }
 
-func (g *GptJ) Prompt(prompt string) string {
+type PromptOptions struct {
+	Tokens int
+	TopK   int
+	TopP   float64
+	Temp   float64
+	Batch  int
+}
+
+func (g *GptJ) Prompt(prompt string, po PromptOptions) string {
 	globalString = ""
-	C.go_gptj_prompt(*g.handle, C.CString(prompt), C.Callback(C.cgo_concatString), 200, 40, 0.9, 0.5, 9)
+	if po.Tokens == 0 {
+		po.Tokens = 200
+	}
+
+	if po.TopK == 0 {
+		po.TopK = 50
+	}
+
+	if po.TopP == 0 {
+		po.TopP = 0.9
+	}
+
+	if po.Temp == 0 {
+		po.Temp = 1.0
+	}
+
+	if po.Batch == 0 {
+		po.Batch = 9
+	}
+
+	C.go_gptj_prompt(*g.handle, C.CString(prompt), C.Callback(C.cgo_concatString),
+		C.int32_t(po.Tokens), C.int32_t(po.TopK),
+		C.float(po.TopP), C.float(po.Temp),
+		(C.int32_t)(po.Batch))
+
 	return globalString
 }
