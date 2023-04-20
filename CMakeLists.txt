@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(GGML_BUILD_EXAMPLES ON CACHE BOOL "ggml: build examples" FORCE)
 
-add_subdirectory(gpt4all-chat/ggml)
+add_subdirectory(gpt4all-chat/ggml EXCLUDE_FROM_ALL)
 
 set(TARGET binding)
 add_library(${TARGET}
@@ -17,9 +17,8 @@ add_library(${TARGET}
     gpt4all-chat/llmodel.h
     )
 
-target_include_directories(${TARGET} PUBLIC
-    gpt4all-chat/ggml/examples
-    gpt4all-chat/ggml/include
-    gpt4all-chat/ggml/include/ggml
-    ${GGML_EXTRA_INCS}
+target_link_libraries(${TARGET} PUBLIC
+    ggml
+    ggml_utils
     )
+

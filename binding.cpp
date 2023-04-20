@@ -13,6 +13,8 @@ GPTJContext* go_gptj_load(char* modelFullPath) {
 
        LLModel::PromptContext* llmctx = new LLModel::PromptContext();
 
+       // cast things to void* to enable C++ objects in CGo
+       // not sure why GPTJ is happy to be cast but not LLModel::PromptContext
        void* ctx = reinterpret_cast<void*>(llmctx);
 
        struct GPTJContext* gptjCtx = new GPTJContext{m, ctx};
