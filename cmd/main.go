@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"flag"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -30,6 +31,10 @@ func main() {
 	flag.Parse()
 
 	gptjHandle := gptj.Load(modelPath)
+	if gptjHandle == nil {
+		fmt.Println()
+		return
+	}
 
 	m := http.NewServeMux()
 	m.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {

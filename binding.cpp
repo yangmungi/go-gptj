@@ -9,7 +9,10 @@ GPTJContext* go_gptj_load(char* modelFullPath) {
        auto fin = std::ifstream(fullPath, std::ios::binary);
 
        GPTJ* m =  new GPTJ();
-       m->loadModel(fullPath, fin);
+       auto loaded = m->loadModel(fullPath, fin);
+       if (!loaded) {
+               return NULL;
+       }
 
        LLModel::PromptContext* llmctx = new LLModel::PromptContext();
 

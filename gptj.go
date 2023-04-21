@@ -17,6 +17,10 @@ type GptJ struct {
 func Load(path string) *GptJ {
 	cstr := C.CString(path)
 	handle := C.go_gptj_load(cstr)
+	if handle == nil {
+		return nil
+	}
+
 	return &GptJ{handle}
 }
 
@@ -45,7 +49,7 @@ func (g *GptJ) Prompt(prompt string, po PromptOptions) string {
 	}
 
 	if po.TopK == 0 {
-		po.TopK = 50
+		po.TopK = 100
 	}
 
 	if po.TopP == 0 {
