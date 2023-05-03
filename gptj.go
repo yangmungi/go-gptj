@@ -1,7 +1,8 @@
 package gptj
 
 /*
-#cgo LDFLAGS: -L./build -lbinding -L./build/gpt4all-chat/ggml/src -lggml -L./build/gpt4all-chat/ggml/examples -lggml_utils -lm -lstdc++
+#cgo CXXFLAGS: -I${SRCDIR}
+#cgo LDFLAGS: -L${SRCDIR}/build -lbinding -lgpt4all -L${SRCDIR}/build/gpt4all-chat/ggml/src -lggml -L${SRCDIR}/build/gpt4all-chat/ggml/examples -lggml_utils -lm -lstdc++
 
 #include "binding.h"
 

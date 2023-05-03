@@ -10,15 +10,22 @@ set(GGML_BUILD_EXAMPLES ON CACHE BOOL "ggml: build examples" FORCE)
 
 add_subdirectory(gpt4all-chat/ggml EXCLUDE_FROM_ALL)
 
-set(TARGET binding)
-add_library(${TARGET}
-    binding.h binding.cpp
+add_library(gpt4all STATIC
     gpt4all-chat/gptj.h gpt4all-chat/gptj.cpp
     gpt4all-chat/llmodel.h
     )
 
-target_link_libraries(${TARGET} PUBLIC
+target_link_libraries(gpt4all PUBLIC
     ggml
     ggml_utils
+    )
+
+set(TARGET binding)
+add_library(${TARGET} STATIC
+    binding.h binding.cpp
+    )
+
+target_link_libraries(${TARGET} PUBLIC
+    gpt4all
     )
 
